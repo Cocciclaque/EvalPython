@@ -1,7 +1,7 @@
 from ollama import chat
 import json
 
-with open("tickets.json", "r", encoding="UTF-8") as tickets:
+with open("inputs/tickets.json", "r", encoding="UTF-8") as tickets:
     file = json.load(tickets)
     response = []
     for line in file:
