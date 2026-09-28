@@ -1,5 +1,6 @@
 from triage import trier
 from dashboad import show_dashboard
+from draft import make_draft
 import os
 
 def ask(command:str):
@@ -20,10 +21,12 @@ def ask(command:str):
                 print("Your file has been generated at outputs/results.json")    
         return False    
     if command[0] == "dashboard":
-        print(command)
         if len(command)== 2 and os.path.exists(command[1]):
             show_dashboard(command[1])
         return False
+    if command[0] == "draft":
+        if len(command)== 2 and os.path.exists(command[1]):
+            make_draft(command[1])
     if command[0] == "exit":
         return True
     print("Invalid Command")
