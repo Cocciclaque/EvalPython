@@ -17,10 +17,11 @@ CONSIGNE = (
 
 
 class TriageError(Exception):
-    """Erreur bloquante, avec un message lisible par l'utilisateur."""
+    """Classe d'erreur custom pour l'utilisateur."""
 
 
 class Analyse(BaseModel):
+    ## classe contenant le modèle de base de l'analyse pour comparer
     category: Literal["bug", "payment", "account", "suggestion", "toxicity", "autre"]
     severity: int = Field(ge=1, le=5)
     sentiment: Literal["positive", "neutral", "negative"]
