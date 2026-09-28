@@ -82,12 +82,23 @@ def sauvegarder(resultats:list[dict], chemin:str):
         raise TriageError(f"Impossible d'écrire {chemin} : {erreur.strerror}") from None
 
 
-def trier(chemin_entree: str, chemin_sortie: str):
+def cle_doublon(ticket: dict):
+    # meme joueur + meme message (sans tenir compte des espaces autour ni des majuscules)
+    return (ticket.get("player"), ticket["message"].strip().casefold())
+
+
+def trier(chemin_entree:str, chemin_sortie:str):
     resultats = []
+    deja_vus = set()
     for ticket in charger_tickets(chemin_entree):
         if not message_utilisable(ticket):
             print(f"Ticket ignoré (message absent ou vide) : {ticket}")
-            pass
+            continue
+        cle = cle_doublon(ticket)
+        if cle in deja_vus:
+            print(f"Doublon ignoré : ticket {ticket.get('id')} de {ticket.get('player')}")
+            continue
+        deja_vus.add(cle)
         analyse = valider(interroger_llm(ticket["message"]))
         statut = "ok" if analyse else "to_check"
         resultats.append({"ticket": ticket, "analyse": analyse, "statut": statut})
